@@ -2,91 +2,37 @@
 # wm independent hotkeys
 #
 
+# temp keybinds
+super + shift + i
+	feh -F ~/Pictures/timetable/timetable_01.png
+
 # terminal emulator
 super + Return
-	alacritty
+	kitty
 
 # program launcher
-super + space
-	./.config/rofi/launchers/launcher.sh
-
-# file explorer
-super + e
-	nautilus
-
-# turn on/off picom (use for games)
-super + shift + q
-	./scripts/picom-on-off.sh
-
-# volume
-XF86AudioRaiseVolume
-	amixer set Master 5%+
-XF86AudioLowerVolume
-	amixer set Master 5%-
-XF86AudioMute
-	amixer set Master toggle
-
-# brightness keys
-XF86MonBrightnessUp
-	xbacklight -inc 10
-XF86MonBrightnessDown
-	xbacklight -dce 10
-
-# media keys
-XF86AudioNext
-	playerctl next
-XF86AudioStop
-	playerctl pause
-XF86AudioPlay
-	playerctl play-pause
-XF86AudioPrev
-	playerctl previous
-
-# screenshot
-Print
-	flameshot full -p /home/fhilipe/Imagens/Screenshots/
-
-shift + Print
-	flameshot gui -p /home/fhilipe/Imagens/Screenshots/
-
-control + Print
-	flameshot full -d 3000 -p /home/fhilipe/Imagens/Screenshots/
-
-# spotify
-super + F3
-	flatpak run com.spotify.Client
-
-# navegador
-super + F1
-	microsoft-edge-dev
-
-# sublime
-super + F2
-	subl3
-
-# vscode
-super + F5
-	code
-
-# power menu
-super + Escape
-	~/.config/polybar/scripts/powermenu
+super + d
+	rofi -show drun
 
 # make sxhkd reload its configuration files:
-super + Control + Escape
+super + shift + c
 	pkill -USR1 -x sxhkd
+
+# reload bspwm config(launch bspwm config file)
+super + shift + r
+	sh ~/.config/bspwm/bspwmrc
 
 #
 # bspwm hotkeys
 #
 
 # quit/restart bspwm
-super + alt + {q,r}
+super + shift + e
 	bspc {quit,wm -r}
 
 # close and kill
-super + {_,shift + }w
-	bspc node -{c,k}
+super + shift + q
+	bspc node -c
 
 # alternate between the tiled and monocle layout
 super + m
@@ -96,9 +42,9 @@ super + m
 super + y
 	bspc node newest.marked.local -n newest.!automatic.local
 
-# swap the current node and the biggest node
+# swap the current node and the biggest window
 super + g
-	bspc node -s biggest
+	bspc node -s biggest.window
 
 #
 # state/flags
@@ -124,9 +70,9 @@ super + {_,shift + }{h,j,k,l}
 super + {p,b,comma,period}
 	bspc node -f @{parent,brother,first,second}
 
-# focus the next/previous node in the current desktop
+# focus the next/previous window in the current desktop
 super + {_,shift + }c
-	bspc node -f {next,prev}.local
+	bspc node -f {next,prev}.local.!hidden.window
 
 # focus the next/previous desktop in the current monitor
 super + bracket{left,right}
@@ -151,7 +97,7 @@ super + {_,shift + }{1-9,0}
 #
 
 # preselect the direction
-super + ctrl + {h,j,k,l}
+super + ctrl + {Left,Down,Up,Right}
 	bspc node -p {west,south,north,east}
 
 # preselect the ratio
@@ -171,13 +117,53 @@ super + ctrl + shift + space
 #
 
 # expand a window by moving one of its side outward
-super + alt + {h,j,k,l}
+super + {Left,Down,Up,Right}
 	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
 
 # contract a window by moving one of its side inward
-super + alt + shift + {h,j,k,l}
+super + alt + {Left,Down,Up,Right}
 	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
 # move a floating window
 super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+# Volume control
+XF86AudioRaiseVolume
+	pactl set-sink-volume @DEFAULT_SINK@ +5%
+XF86AudioLowerVolume
+        pactl set-sink-volume @DEFAULT_SINK@ -5%
+XF86AudioMute
+	pactl set-sink-mute @DEFAULT_SINK@ toggle
+super + shift + m
+	pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+# Keyboard backlight control
+XF86KbdBrightnessUp
+	brightnessctl --device=smc::kbd_backlight set +20%
+XF86KbdBrightnessDown
+        brightnessctl --device=smc::kbd_backlight set 20%-
+
+# Intel backlight control (monitor brightness)
+XF86MonBrightnessUp
+	brightnessctl --device=intel_backlight set +10%
+XF86MonBrightnessDown
+        brightnessctl --device=intel_backlight set 10%-
+
+# Escrotum screenshot
+super + shift + p
+	escrotum -s ~/Pictures/%Y-%m-%d-%H%M%S_$wx$h_escrotum.png
+super + shift + o
+        escrotum ~/Pictures/%Y-%m-%d-%H%M%S_$wx$h_escrotum.png
+
+# Gotop shortcut
+super + shift + g
+	kitty -e gotop &
+
+# Pavucontrol shortcut
+super + shift + u
+	pavucontrol &
+
+# Ncmpcpp shortcut
+super + shift + n
+	kitty --class=ncmpcpp -e ncmpcpp &

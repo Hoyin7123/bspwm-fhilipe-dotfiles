@@ -34,5 +34,5 @@ i3lock --nofork                 \
     \
     --indicator			\
     \
-    --image=/home/fhilipe/Imagens/Wallpapers/lockscreen/e6c909a12a3a05493884afc91fa08437.6d1df93530.png
+    --image=~/Pictures/lines.jpg
 

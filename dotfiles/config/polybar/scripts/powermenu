@@ -10,16 +10,16 @@ rofi_command="rofi -m 0 -theme $HOME/.config/polybar/scripts/themes/powermenu.ra
 uptime=$(uptime -p | sed -e 's/up //g')
 
 # Options
-shutdown=" Desligar"
-reboot=" Reiniciar"
-lock=" Bloquear"
-suspend=" Hibernar"
-logout=" Sair"
+shutdown=" Shutdown"
+reboot=" Reboot"
+lock=" Lock"
+suspend=" Suspend"
+logout=" Logout"
 
 # Variable passed to rofi
 options="$lock\n$suspend\n$logout\n$reboot\n$shutdown"
 
-chosen="$(echo -e "$options" | $rofi_command -p "UP - $uptime" -dmenu -selected-row 0)"
+chosen="$(echo -e "$options" | $rofi_command -p "Uptime: $uptime" -dmenu -selected-row 0)"
 case $chosen in
     $shutdown)
         systemctl poweroff
@@ -28,10 +28,10 @@ case $chosen in
         systemctl reboot
         ;;
     $lock)
-        /home/fhilipe/.config/polybar/scripts/lock.sh
+        ~/.config/polybar/scripts/lock.sh
         ;;
     $suspend)
-        mpc -q pause
+        #mpc -q pause
         amixer set Master mute
         systemctl suspend
         ;;
